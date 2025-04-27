@@ -93,9 +93,10 @@ def clean_data(file_path, output_path):
         print(f"去重后的数据行数: {len(cleaned_data)}")
     else:
         print("没有发现重复的特征")
-    
-    # 保存清洗后的数据
-    cleaned_data.to_csv(output_path, index=False, header=False)
+
+    # 保存清洗后的数据，设置表头为1到69
+    header = [str(i) for i in range(1, 70)]  # 生成表头1到69
+    cleaned_data.to_csv(output_path, index=False, header=header)
     print(f"清洗后的数据已保存到: {output_path}")
     
     # 输出标签分布
