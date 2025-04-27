@@ -1,6 +1,5 @@
 import os
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torch
@@ -360,31 +359,6 @@ def evaluate(model, data_loader, criterion, device):
     return total_loss / max(1, len(data_loader)), 100 * correct / max(1, total)
 
 
-def plot_training_history(train_losses, val_losses, train_accs, val_accs, save_path='training_history.png'):
-    """绘制训练历史并保存图表"""
-    plt.figure(figsize=(12, 5))
-
-    plt.subplot(1, 2, 1)
-    plt.plot(train_losses, label='训练损失')
-    plt.plot(val_losses, label='验证损失')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.legend()
-    plt.title('损失曲线')
-
-    plt.subplot(1, 2, 2)
-    plt.plot(train_accs, label='训练准确率')
-    plt.plot(val_accs, label='验证准确率')
-    plt.xlabel('Epoch')
-    plt.ylabel('Accuracy (%)')
-    plt.legend()
-    plt.title('准确率曲线')
-
-    plt.tight_layout()
-    plt.savefig(save_path)
-    print(f"训练历史已保存到 {save_path}")
-
-
 def main():
     # 配置参数
     config = {
@@ -393,7 +367,7 @@ def main():
         'embed_dim': 128,
         'n_layers': 4,
         'lr': 3e-4,
-        'epochs': 200,
+        'epochs': 100,
         'seed': 42,
         'save_dir': 'models',
         'max_feature_value': 100  # 限制特征最大值，防止极端值造成不稳定
