@@ -3,36 +3,8 @@ import subprocess
 import time
 
 import cv2
-import psutil
 
-
-def get_adb_path():
-    # 模拟器进程名
-    leidian_process_names = [
-        'dnplayer.exe',  # 雷电模拟器
-        'MuMuPlayer.exe'
-    ]
-
-    # 通过进程查找
-    for proc in psutil.process_iter(['name', 'exe']):
-        try:
-            if proc.info['name'] in leidian_process_names:
-                emulator_exe = proc.info['exe']
-                install_dir = os.path.dirname(emulator_exe)
-                adb_path = os.path.join(install_dir, 'adb.exe')
-
-                if os.path.isfile(adb_path):
-                    return adb_path
-        except (psutil.NoSuchProcess, psutil.AccessDenied):
-            continue
-
-    raise FileNotFoundError("无法自动找到模拟器ADB路径，请手动指定")
-
-
-if get_adb_path() is None:
-    adb_path = r'D:\LDPlayer9\adb.exe'  # 手动指定位置
-else:
-    adb_path = get_adb_path()
+adb_path = r".\platform-tools\adb.exe"
 print(f"ADB路径: {adb_path}")
 
 device_serial = '127.0.0.1:5555'  # 指定设备序列号
@@ -53,13 +25,40 @@ relative_points = [
 
 
 def connect_to_emulator():
-    try:
-        # 使用绝对路径连接到雷电模拟器
-        subprocess.run(f'{adb_path} connect {device_serial}', shell=True, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"ADB connect command failed: {e}")
-    except FileNotFoundError as e:
-        print(f"Error: {e}. Please ensure adb is installed and added to the system PATH.")
+    # 预设的device_serial列表
+    global device_serial
+    device_serials = [device_serial,
+                      "127.0.0.1:5554",
+                      "127.0.0.1:16384",
+
+                      "127.0.0.1:5552",
+                      "127.0.0.1:5553",
+                      "127.0.0.1:5555",
+                      "127.0.0.1:5556",
+
+                      "127.0.0.1:16382",
+                      "127.0.0.1:16383",
+                      "127.0.0.1:16385",
+                      "127.0.0.1:16386",
+                      ]
+
+    for device_serial_ in device_serials:
+        try:
+            # 使用绝对路径连接到模拟器
+            subprocess.run(f'{adb_path} connect {device_serial_}', shell=True, check=True)
+            print(f"Successfully connected to {device_serial_}")
+            return  # 连接成功则退出函数
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to connect to {device_serial_}, trying next...")
+            last_error = e  # 保存最后一个错误
+        except FileNotFoundError as e:
+            print(f"Error: {e}. Please ensure adb is installed and added to the system PATH.")
+            return  # 如果是adb路径问题，直接返回
+
+    # 如果所有尝试都失败
+    print(f"ADB Port Error: {last_error} \n"
+          f"Please refer to (LeiDian) https://help.ldmnq.com/docs/LD9adbserver  \n"
+          f"(MUMU) https://mumu.163.com/help/20230214/35047_1073151.html")
 
 
 connect_to_emulator()

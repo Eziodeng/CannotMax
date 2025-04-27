@@ -177,7 +177,7 @@ class ArknightsApp:
             ).to(device)
 
             # 加载模型权重
-            model = torch.load('models/best_model_full.pth', map_location=device)
+            model = torch.load('models/best_model_full.pth', map_location=device, weights_only=False)
             model.eval()
 
             # 准备输入数据（完全匹配ArknightsDataset的处理方式）
