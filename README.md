@@ -39,16 +39,14 @@ pip install -r requirements.txt
 - 下载并安装 [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki)
 - 将Tesseract安装目录添加到系统环境变量PATH中
 
-5. 修改你的adb路径和设备序列号:
+5. 修改你的设备序列号:
 - 在`loadData.py`中找到以下代码：
 ```python
-   if get_adb_path() is None:
-       adb_path = r'D:\LDPlayer9\adb.exe'  # 手动指定位置
-   else:
-       adb_path = get_adb_path()
-   print(f"ADB路径: {adb_path}")
    device_serial = '127.0.0.1:5555'  # 指定设备序列号
 ```
+- 若你使用MUMU或雷电模拟器，你可以从以下网址得知如何找到设备序列号
+- 雷电 https://help.ldmnq.com/docs/LD9adbserver
+- MUMU https://mumu.163.com/help/20230214/35047_1073151.html
 
 
 ## 使用方法
