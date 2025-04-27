@@ -39,6 +39,18 @@ pip install -r requirements.txt
 - 下载并安装 [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki)
 - 将Tesseract安装目录添加到系统环境变量PATH中
 
+5. 修改你的adb路径和设备序列号:
+- 在`loadData.py`中找到以下代码：
+```python
+   if get_adb_path() is None:
+       adb_path = r'D:\LDPlayer9\adb.exe'  # 手动指定位置
+   else:
+       adb_path = get_adb_path()
+   print(f"ADB路径: {adb_path}")
+   device_serial = '127.0.0.1:5555'  # 指定设备序列号
+```
+
+
 ## 使用方法
 
 1. 运行主程序：

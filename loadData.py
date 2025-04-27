@@ -36,6 +36,7 @@ else:
 print(f"ADB路径: {adb_path}")
 
 device_serial = '127.0.0.1:5555'  # 指定设备序列号
+
 process_images = [cv2.imread(f'images/process/{i}.png') for i in range(13)]
 
 # 屏幕分辨率
